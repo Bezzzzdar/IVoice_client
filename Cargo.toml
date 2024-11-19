@@ -1,0 +1,9 @@
+[package]
+name = "IVoice_client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+atk-sys = "0.18.0"
+gdk-sys = "0.18.0"
+gtk = "0.9"
