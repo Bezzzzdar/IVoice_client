@@ -1,1 +1,1 @@
-IVoise server
+IVoise client
