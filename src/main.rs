@@ -1,19 +1,25 @@
 use gtk::prelude::*;
 use gtk::{Application, ApplicationWindow, Button};
-use reqwest::Client;
-use serde_json::json;
+mod utils;
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Создаем GTK-приложение
-    let app = Application::builder()
-        .application_id("com.example.gtk-http")
-        .build();
+struct MyApp {
+    app: gtk::Application,
+}
 
-    app.connect_activate(|app| {
+impl MyApp {
+    /// Создание нового приложения
+    fn new(app_id: &str) -> Self {
+        let app = Application::builder()
+            .application_id(app_id)
+            .build();
+        Self { app }
+    }
+
+    /// Настройка интерфейса
+    fn init_ui(&self) {
         // Создаем главное окно
         let window = ApplicationWindow::builder()
-            .application(app)
+            .application(&self.app)
             .title("HTTP Request Example")
             .default_width(400)
             .default_height(200)
@@ -28,40 +34,38 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .margin_end(20)
             .build();
 
-        // Обработчик нажатия кнопки
-        button.connect_clicked(|_| {
-            // Запускаем асинхронную задачу для отправки HTTP-запроса
-            let client = Client::new();
-            let payload = json!({
-                "username": "testuser",
-                "password": "159"
-            });
-
-            gtk::glib::MainContext::default().spawn_local(async move {
-                match client
-                    .post("http://91.122.46.91:3000/auth/login")
-                    .json(&payload)
-                    .send()
-                    .await
-                {
-                    Ok(response) => {
-                        println!("Успех: {}", response.text().await.unwrap_or_default());
-                    }
-                    Err(err) => {
-                        eprintln!("Ошибка: {}", err);
-                    }
-                }
-            });
-        });
+        // Подключаем обработчик нажатия
+        self.connect_button_clicked(&button);
 
         // Добавляем кнопку в окно
         window.set_child(Some(&button));
         button.show();
+
         // Показываем окно
         window.show();
-    });
+    }
 
-    // Запускаем приложение
+    /// Обработчик нажатия кнопки
+    fn connect_button_clicked(&self, button: &Button) {
+        button.connect_clicked(|_| { utils::auth::auth_reqwest("testuser", "159");});
+    }
+
+    /// Запуск приложения
+    fn run(&self) {
+        let app = self.app.clone();
+        app.connect_activate(move |app| {
+            let my_app = MyApp { app: app.clone() };
+            my_app.init_ui();
+        });
+
+        self.app.run();
+    }
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Создаем и запускаем приложение
+    let app = MyApp::new("com.example.gtk-http");
     app.run();
 
     Ok(())
