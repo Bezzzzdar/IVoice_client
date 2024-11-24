@@ -12,3 +12,4 @@ tokio = { version = "1", features = ["full"] }
 serde_json = "1.0"
 futures-util = "0.3.31"
 rust_socketio = { version = "*" }
+cpal = "0.15.3"
