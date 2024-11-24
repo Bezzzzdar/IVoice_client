@@ -1,72 +1,97 @@
 use gtk::prelude::*;
-use gtk::{Application, ApplicationWindow, Button};
-mod utils;
-
-struct MyApp {
-    app: gtk::Application,
+use gtk::Application;
+use widgets::main_window::MainWindow;
+// mod utils;
+mod widgets
+{
+    pub mod main_window;
+    pub mod side_bar;
 }
 
-impl MyApp {
-    /// Создание нового приложения
-    fn new(app_id: &str) -> Self {
-        let app = Application::builder()
-            .application_id(app_id)
-            .build();
-        Self { app }
-    }
+// struct App 
+// {
+//     app: gtk::Application,
+// }
 
-    /// Настройка интерфейса
-    fn init_ui(&self) {
-        // Создаем главное окно
-        let window = ApplicationWindow::builder()
-            .application(&self.app)
-            .title("HTTP Request Example")
-            .default_width(400)
-            .default_height(200)
-            .build();
+// impl App 
+// {
+//     /// Создание нового приложения
+//     fn new(app_id: &str) -> Self {
+//         let app = Application::builder()
+//             .application_id(app_id)
+//             .build();
+//         Self { app }
+//     }
 
-        // Создаем кнопку
-        let button = Button::builder()
-            .label("Отправить запрос")
-            .margin_top(20)
-            .margin_bottom(20)
-            .margin_start(20)
-            .margin_end(20)
-            .build();
+//     /// Настройка интерфейса
+//     fn init_ui(&self) {
+//         // Создаем главное окно
+//         let window = ApplicationWindow::builder()
+//             .application(&self.app)
+//             .title("HTTP Request Example")
+//             .default_width(400)
+//             .default_height(200)
+//             .build();
 
-        // Подключаем обработчик нажатия
-        self.connect_button_clicked(&button);
+//         // Создаем кнопку
+//         let button = Button::builder()
+//             .label("Отправить запрос")
+//             .margin_top(20)
+//             .margin_bottom(20)
+//             .margin_start(20)
+//             .margin_end(20)
+//             .build();
 
-        // Добавляем кнопку в окно
-        window.set_child(Some(&button));
-        button.show();
+//         // Подключаем обработчик нажатия
+//         self.connect_button_clicked(&button);
 
-        // Показываем окно
-        window.show();
-    }
+//         // Добавляем кнопку в окно
+//         window.set_child(Some(&button));
+//         button.show();
 
-    /// Обработчик нажатия кнопки
-    fn connect_button_clicked(&self, button: &Button) {
-        button.connect_clicked(|_| { utils::auth::auth_reqwest("testuser", "159");});
-    }
+//         // Показываем окно
+//         window.show();
+//     }
 
-    /// Запуск приложения
-    fn run(&self) {
-        let app = self.app.clone();
-        app.connect_activate(move |app| {
-            let my_app = MyApp { app: app.clone() };
-            my_app.init_ui();
-        });
+//     /// Обработчик нажатия кнопки
+//     fn connect_button_clicked(&self, button: &Button) {
+//         button.connect_clicked(|_| { utils::auth::auth_reqwest("testuser", "159");});
+//     }
 
-        self.app.run();
-    }
-}
+//     /// Запуск приложения
+//     fn run(&self) {
+//         let app = self.app.clone();
+//         app.connect_activate(move |app| {
+//             let my_app = App { app: app.clone() };
+//             my_app.init_ui();
+//         });
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Создаем и запускаем приложение
-    let app = MyApp::new("com.example.gtk-http");
+//         self.app.run();
+//     }
+// }
+
+// #[tokio::main]
+// async fn main() -> Result<(), Box<dyn std::error::Error>> {
+//     // Создаем и запускаем приложение
+//     let app = App::new("com.example.gtk-http");
+//     app.run();
+
+//     Ok(())
+// }
+
+
+fn main()
+{
+    let app = Application::builder()
+        .application_id("com.example.gtk-multiple-classes")
+        .build();
+
+    app.connect_activate(|app|{
+        let main_window = MainWindow::new(app);
+        main_window.init_ui();
+        main_window.setup_signals();
+        main_window.show();
+    });
+
     app.run();
-
-    Ok(())
 }
