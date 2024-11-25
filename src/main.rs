@@ -1,12 +1,13 @@
+mod widgets;
+
 use gtk::prelude::*;
 use gtk::Application;
 use widgets::main_window::MainWindow;
 // mod utils;
-mod widgets
-{
-    pub mod main_window;
-    pub mod side_bar;
-}
+// mod widgets
+// {
+//     pub mod main_window;
+// }
 
 // struct App 
 // {
@@ -88,8 +89,6 @@ fn main()
 
     app.connect_activate(|app|{
         let main_window = MainWindow::new(app);
-        main_window.init_ui();
-        main_window.setup_signals();
         main_window.show();
     });
 
