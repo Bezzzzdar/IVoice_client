@@ -1,6 +1,5 @@
 use gtk::{prelude::*, Label};
-use gtk::{CssProvider, StyleContext};
-use gtk::{Application, ApplicationWindow, Button, Box, Orientation, Image, Align, SearchEntry};
+use gtk::{Button, Box, Orientation, Image, Align, SearchEntry};
 use crate::widgets::utils::*;
 
 pub struct SideBar
@@ -132,13 +131,34 @@ impl SideBar
             hung_up_button,
         };
 
+        /*Add signals for pressed buttons*/
+        side_bar.init_signals();
+
         side_bar
     }
 
-    // fn init_signals()
-    // {
+    fn init_signals(&mut self)
+    {
+        self.camera_button.connect_clicked(|_| {
+            println!("camera_button clicked!");
+        });
 
-    // }
+        self.display_button.connect_clicked(|_| {
+            println!("display_button clicked!");
+        });
+
+        self.microphone_button.connect_clicked(|_| {
+            println!("microphone_button clicked!");
+        });
+
+        self.sound_button.connect_clicked(|_| {
+            println!("sound_button clicked!");
+        });
+
+        self.hung_up_button.connect_clicked(|_| {
+            println!("hung_up_button clicked!");
+        });
+    }
 
     pub fn widget(&self) -> &gtk::Box
     {

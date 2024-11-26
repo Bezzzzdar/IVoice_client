@@ -4,6 +4,7 @@ use crate::widgets::server_bar::ServerBar;
 use crate::widgets::side_bar::SideBar;
 use crate::widgets::utils::*;
 
+use super::workspace::{self, WorkSpace};
 
 pub struct MainWindow {
     window: ApplicationWindow,
@@ -27,9 +28,11 @@ impl MainWindow {
 
         let server_bar = ServerBar::new();
         let side_bar = SideBar::new();
+        let workspace = WorkSpace::new();
         
         global_frame.add(server_bar.widget());
         global_frame.add(side_bar.widget());
+        global_frame.add(workspace.widget());
 
         /*Load css for all widgets*/
         load_css("src\\styles\\styles.css");

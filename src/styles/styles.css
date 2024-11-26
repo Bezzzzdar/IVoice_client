@@ -51,3 +51,9 @@
     background-image: none;
     color: black;
 }
+
+/*WorkSpace*/
+
+#workspace-main-container {
+    background-color: whitesmoke;
+}

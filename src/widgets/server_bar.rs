@@ -80,7 +80,7 @@ impl ServerBar
             direct_messages_button,
         };
 
-        /*Add signals for pressed button*/
+        /*Add signals for pressed buttons*/
         server_bar.init_signals();
 
         server_bar
