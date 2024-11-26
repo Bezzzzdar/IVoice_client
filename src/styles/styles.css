@@ -1,4 +1,5 @@
-#side-bar-main-container {
+/*ServerBar*/
+#server-bar-main-container {
     background-color: #494949;
 }
 
@@ -33,4 +34,20 @@
     border: none;
     outline: none;
     box-shadow: none;
+}
+
+/*SideBar*/
+#side-bar-main-container {
+    background-color: #9c9b9b;
+}
+
+#search-box {
+    background-color: #bebebe;
+    border-color: #494949;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-image: none;
+    color: black;
 }
