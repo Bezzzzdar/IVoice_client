@@ -1,0 +1,59 @@
+/*ServerBar*/
+#server-bar-main-container {
+    background-color: #494949;
+}
+
+#funtional-button {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-image: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 70%;
+    min-width: 30px;
+    min-height: 30px;
+    transition: background-color 0.2s ease;
+}
+
+#funtional-button:hover {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.2)
+}
+
+#funtional-button:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#funtional-button:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/*SideBar*/
+#side-bar-main-container {
+    background-color: #9c9b9b;
+}
+
+#search-box {
+    background-color: #bebebe;
+    border-color: #494949;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-image: none;
+    color: black;
+}
+
+/*WorkSpace*/
+
+#workspace-main-container {
+    background-color: whitesmoke;
+}

@@ -1,54 +1,49 @@
 use gtk::prelude::*;
-use gtk::{Application, ApplicationWindow, Button, Box, Orientation};
+use gtk::{Application, ApplicationWindow, Box, Orientation};
+use crate::widgets::server_bar::ServerBar;
 use crate::widgets::side_bar::SideBar;
+use crate::widgets::utils::*;
+
+use super::workspace::{self, WorkSpace};
 
 pub struct MainWindow {
     window: ApplicationWindow,
-    toggle_button: Button,
+    server_bar: ServerBar,
     side_bar: SideBar,
+    // functional_bar: Box,
+    // main_widget: Box,
 }
 
 impl MainWindow {
     pub fn new(app: &Application) -> Self {
         let window = ApplicationWindow::builder()
             .application(app)
-            .title("Выезжающее окно слева")
-            .default_width(600)
-            .default_height(400)
+            .title("IVoice")
+            .default_width(1000)
+            .default_height(700)
             .build();
+        window.set_size_request(1000, 700);
 
-        let toggle_button = Button::builder().label("Меню").build();
+        let global_frame = Box::new(Orientation::Horizontal, 0);
+
+        let server_bar = ServerBar::new();
         let side_bar = SideBar::new();
+        let workspace = WorkSpace::new();
         
+        global_frame.add(server_bar.widget());
+        global_frame.add(side_bar.widget());
+        global_frame.add(workspace.widget());
+
+        /*Load css for all widgets*/
+        load_css("src\\styles\\styles.css");
+        window.set_child(Some(&global_frame));
+        window.show_all();
+
         MainWindow {
             window,
-            toggle_button,
+            server_bar,
             side_bar,
         }
-    }
-
-    pub fn init_ui(&self) {
-        self.side_bar.init_ui();
-
-        let container = Box::new(Orientation::Horizontal, 0);
-        container.add(self.side_bar.widget());
-        container.add(&self.toggle_button);
-
-        self.window.set_child(Some(&container));
-        self.window.show_all();
-    }
-
-    pub fn setup_signals(&self) {
-        let side_bar = self.side_bar.clone();
-        self.toggle_button.connect_clicked(move |_| {
-            let current_state = side_bar.is_visible();
-            side_bar.set_visible(!current_state);
-        });
-
-        let side_bar = self.side_bar.clone();
-        self.side_bar.connect_close_signal(move || {
-            side_bar.set_visible(false);
-        });
     }
 
     pub fn show(&self) {
